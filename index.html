@@ -1,54 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Floris & Nina – Full Planner with Day Notes</title>
-
-  <!-- Google Fonts (iOS-inspired) -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Floris & Nina – Full Planner with Firebase</title>
+  
+  <!-- Example Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   
-  <!-- Quill for Rich Text Editor (CSS) -->
+  <!-- Quill (Rich Text) + Emoji CSS -->
   <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-  <!-- Quill Emoji CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill-emoji/dist/quill-emoji.css" />
 
   <style>
-    /* ================
-       GLOBAL STYLES
-       ================ */
+    /* GLOBAL STYLES */
     html, body {
-      margin: 0; padding: 0;
-      height: 100%; width: 100%;
+      margin: 0; 
+      padding: 0;
+      width: 100%;
+      height: 100%;
       font-family: 'Poppins', sans-serif;
-      background: #FFFDF9; 
+      background: #FFFDF9;
       color: #333;
-      overflow: hidden; 
+      overflow: hidden; /* We'll manage scrolling in sections */
     }
-    * {
-      box-sizing: border-box;
-      transition: all 0.15s ease;
-    }
+    * { box-sizing: border-box; transition: all 0.15s ease; }
+
     .container {
       display: flex; 
       flex-direction: column;
-      height: 100vh; 
       width: 100%;
+      height: 100vh;
     }
 
     /* HEADER */
     header {
-      flex: 0 0 auto;
-      background: #FFDAD6; 
+      position: relative;
+      background: #FFDAD6;
       padding: 1rem;
       text-align: center;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      position: relative;
+      flex: 0 0 auto;
     }
     header h1 {
       margin: 0;
-      font-weight: 700;
       font-size: 1.4rem;
+      font-weight: 700;
       color: #4A2E2E;
     }
     header .subheading {
@@ -58,7 +55,8 @@
     }
     .header-nav {
       position: absolute;
-      top: 1rem; right: 1rem;
+      top: 1rem; 
+      right: 1rem;
       display: flex;
       gap: 0.5rem;
     }
@@ -84,7 +82,7 @@
       overflow: hidden;
     }
 
-    /* SIDEBAR: TASKS & CHAT */
+    /* SIDEBAR (Tasks & Chat) */
     .sidebar {
       flex: 0 0 350px;
       background: #FFF;
@@ -101,7 +99,7 @@
     }
     .sidebar-header h2 {
       margin: 0; 
-      font-size: 1.1rem;
+      font-size: 1.1rem; 
       font-weight: 600;
     }
     .tasks-container, .chat-container {
@@ -110,12 +108,15 @@
       padding: 1rem;
       scrollbar-width: thin;
     }
-    .tasks-container h3, .chat-container h3 {
+    .tasks-container h3,
+    .chat-container h3 {
       margin-top: 0;
     }
+
+    /* ADD TASK FORM */
     .new-task-form {
       display: flex; 
-      flex-direction: column; 
+      flex-direction: column;
       gap: 0.5rem;
       margin-bottom: 0.8rem;
     }
@@ -141,9 +142,12 @@
     .new-task-form button:hover {
       background: #FF7F62;
     }
+
+    /* TASK LIST */
     .task-list {
       list-style: none;
-      margin: 0; padding: 0;
+      margin: 0; 
+      padding: 0;
     }
     .task-item {
       background: #FDFDFD;
@@ -167,10 +171,10 @@
       color: #fff;
       display: inline-block;
     }
-    .cat-cleaning { background: #6BBF59; }
-    .cat-shopping { background: #FF7F62; }
-    .cat-personal { background: #AB79CF; }
-    .cat-other    { background: #BFBFBD; }
+    .cat-cleaning  { background: #6BBF59; }
+    .cat-shopping  { background: #FF7F62; }
+    .cat-personal  { background: #AB79CF; }
+    .cat-other     { background: #BFBFBD; }
     .task-date {
       font-size: 0.8rem;
       color: #666;
@@ -178,15 +182,15 @@
     .task-right button {
       cursor: pointer; 
       background: none; 
-      border: none;
-      color: #777; 
+      border: none; 
+      color: #777;
       font-size: 1rem;
     }
     .task-right button:hover {
       color: #333;
     }
 
-    /* CHAT UI */
+    /* CHAT MESSAGES */
     .chat-messages {
       max-height: 300px;
       overflow-y: auto;
@@ -209,7 +213,8 @@
       color: #4A2E2E;
     }
     .chat-input {
-      display: flex; gap: 0.5rem;
+      display: flex; 
+      gap: 0.5rem;
     }
     .chat-input input {
       flex: 1;
@@ -229,7 +234,7 @@
       background: #FF7F62;
     }
 
-    /* MAIN CONTENT (Agenda / Receipts / Diaries) */
+    /* MAIN CONTENT: Agenda / Receipts / Diaries */
     .main-content {
       flex: 1 1 auto;
       display: flex;
@@ -238,7 +243,7 @@
       padding: 1rem;
     }
     .main-tabs {
-      display: flex; 
+      display: flex;
       gap: 0.5rem;
       margin-bottom: 1rem;
     }
@@ -290,17 +295,15 @@
     .day-number {
       font-weight: 600;
     }
-    /* Mark days with tasks or notes */
+    /* highlight days with tasks or notes */
     .has-tasks::after {
       content: '•';
       color: #FF9680;
       position: absolute;
-      bottom: 5px; 
-      right: 5px;
+      bottom: 5px; right: 5px;
       font-size: 1.2rem;
     }
 
-    /* OVERLAY for day details (tasks + day notes) */
     .agenda-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -325,10 +328,10 @@
       margin-top: 0;
     }
     .popup-close {
-      position: absolute;
+      position: absolute; 
       top: 10px; 
       right: 10px;
-      cursor: pointer;
+      cursor: pointer; 
       background: none; 
       border: none;
       font-size: 1.2rem; 
@@ -337,10 +340,10 @@
     .popup-close:hover {
       color: #333;
     }
-
-    /* Day tasks list */
     .day-tasks-list {
-      list-style: none; margin: 0; padding: 0;
+      list-style: none; 
+      margin: 0; 
+      padding: 0;
       margin-bottom: 1rem;
     }
     .day-task-item {
@@ -367,9 +370,9 @@
       margin-bottom: 0.6rem;
     }
     .upload-row {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      display: flex; 
+      align-items: center; 
+      gap: 0.5rem; 
       margin-bottom: 1rem;
     }
     .upload-row input[type='file'] {
@@ -430,13 +433,18 @@
       font-size: 1.1rem;
     }
     .diary-tabs {
-      display: flex; gap: 1rem; margin-bottom: 1rem;
+      display: flex; 
+      gap: 1rem; 
+      margin-bottom: 1rem;
     }
     .diary-tabs button {
       padding: 0.5rem 1rem;
-      border: none; border-radius: 4px;
-      cursor: pointer; background: #FFEAE5;
-      font-weight: 500; color: #4A2E2E;
+      border: none; 
+      border-radius: 4px; 
+      cursor: pointer; 
+      background: #FFEAE5;
+      font-weight: 500; 
+      color: #4A2E2E;
     }
     .diary-tabs button.active {
       background: #FF9680; color: #fff;
@@ -448,30 +456,32 @@
       background: #FFFBFA;
     }
     .diary-toolbar {
-      border: 1px solid #ccc; border-bottom: none;
-      border-top-left-radius: 4px; border-top-right-radius: 4px;
+      border: 1px solid #ccc;
+      border-bottom: none;
+      border-top-left-radius: 4px; 
+      border-top-right-radius: 4px;
       background: #FDFDFD;
     }
     .diary-actions {
-      margin-top: 0.5rem; text-align: right;
+      margin-top: 0.5rem; 
+      text-align: right;
     }
     .diary-actions button {
-      background: #FF9680; color: #fff;
-      border: none; border-radius: 4px;
-      padding: 0.4rem 0.6rem; cursor: pointer;
+      background: #FF9680; 
+      color: #fff;
+      border: none; 
+      border-radius: 4px;
+      padding: 0.4rem 0.6rem; 
+      cursor: pointer;
       font-size: 0.9rem;
     }
     .diary-actions button:hover {
       background: #FF7F62;
     }
 
-    /* DAY NOTES STYLES in overlay */
+    /* DAY NOTES in overlay */
     .daynotes-section {
       margin-bottom: 1.5rem;
-    }
-    .daynotes-section h5 {
-      margin: 1rem 0 0.5rem 0;
-      font-size: 1rem;
     }
     .daynotes-list {
       list-style: none; margin: 0; padding: 0;
@@ -488,12 +498,12 @@
       align-items: center;
     }
     .daynote-info {
-      display: flex; flex-direction: column; 
+      display: flex; flex-direction: column;
       gap: 0.2rem;
       font-size: 0.9rem;
     }
     .daynote-author {
-      font-weight: 600; 
+      font-weight: 600;
       margin-right: 0.5rem;
       color: #4A2E2E;
     }
@@ -501,19 +511,19 @@
       font-size: 0.9rem;
     }
     .daynote-actions button {
-      background: none; border: none;
-      font-size: 1rem; cursor: pointer;
+      background: none; 
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
       color: #777;
     }
     .daynote-actions button:hover {
       color: #333;
     }
-
-    /* The mini quill area */
     .add-daynote-wrapper {
       display: none; 
       margin-top: 0.5rem;
-      padding: 0.5rem;
+      padding: 0.5rem; 
       background: #FFFDFD;
       border: 1px solid #eee;
       border-radius: 6px;
@@ -526,7 +536,7 @@
     }
     .note-editor-area {
       height: 120px; 
-      border-top: none; 
+      border-top: none;
       border-radius: 0 0 4px 4px;
       background: #FFFBFA;
     }
@@ -544,7 +554,7 @@
       color: #fff;
       border: none; 
       border-radius: 4px;
-      padding: 0.4rem 0.6rem;
+      padding: 0.4rem 0.6rem; 
       cursor: pointer; 
       font-size: 0.85rem;
     }
@@ -552,7 +562,6 @@
       background: #FF7F62;
     }
 
-    /* MOBILE RESPONSIVE */
     @media (max-width: 768px) {
       main {
         flex-direction: column;
@@ -571,17 +580,14 @@
 </head>
 <body>
 <div class="container">
-  <!-- HEADER -->
   <header>
     <h1>Floris &amp; Nina Planner</h1>
-    <div class="subheading">Eco-Friendly iOS-Style Agenda + Day Notes</div>
+    <div class="subheading">All-in-One Agenda, Tasks, Chat, Diaries &amp; Firebase</div>
     <div class="header-nav">
       <button title="Help">?</button>
       <button title="Settings">&#9881;</button>
     </div>
   </header>
-
-  <!-- MAIN BODY -->
   <main>
     <!-- SIDEBAR: Tasks & Chat -->
     <div class="sidebar">
@@ -591,32 +597,30 @@
       <div class="tasks-container">
         <h3>Add New Task</h3>
         <form class="new-task-form" onsubmit="return false;">
-          <input type="text" id="taskInput" placeholder="Task description..." />
+          <input type="text" id="taskInput" placeholder="Task description...">
           <select id="taskCategory">
             <option value="cleaning">Cleaning</option>
             <option value="shopping">Shopping</option>
             <option value="personal">Personal</option>
             <option value="other">Other</option>
           </select>
-          <input type="date" id="taskDate" />
+          <input type="date" id="taskDate">
           <button id="addTaskBtn">Add Task</button>
         </form>
         <ul class="task-list" id="taskList"></ul>
       </div>
-
       <div class="chat-container">
         <h3>Chat Messages</h3>
         <div class="chat-messages" id="chatMessages"></div>
         <div class="chat-input">
-          <input type="text" id="chatInput" placeholder="Type a message..." />
+          <input type="text" id="chatInput" placeholder="Type a message...">
           <button id="sendChatBtn">Send</button>
         </div>
       </div>
     </div>
 
-    <!-- MAIN CONTENT: Agenda / Receipts / Diaries -->
+    <!-- RIGHT CONTENT: Agenda / Receipts / Diaries -->
     <div class="main-content">
-      <!-- TABS -->
       <div class="main-tabs">
         <button id="agendaTab" class="active">Agenda</button>
         <button id="receiptTab">Receipts</button>
@@ -625,25 +629,25 @@
 
       <!-- AGENDA SECTION -->
       <div class="agenda-section" id="agendaSection" style="display:block;">
-        <h3>Monthly Agenda</h3>
-        <p>Tap a day to see tasks and add notes (max 4) for that day.</p>
+        <h3>Calendar Agenda</h3>
+        <p>Select a day to add notes (or tasks with date in the sidebar). Stored in Firebase.</p>
         <div class="calendar-grid" id="calendarGrid">
-          <!-- Days injected by buildCalendar() -->
+          <!-- day cells injected here -->
         </div>
       </div>
 
       <!-- RECEIPTS SECTION -->
       <div class="receipt-section" id="receiptSection">
         <h3>Budget &amp; Receipts</h3>
-        <p>Upload grocery receipts for AI-based cost tracking.</p>
+        <p>Upload grocery receipts to track expenses (AI-based simulation).</p>
         <div class="upload-row">
-          <input type="file" id="receiptFile" accept="image/*" />
+          <input type="file" id="receiptFile" accept="image/*">
           <button id="uploadReceiptBtn">Upload</button>
         </div>
         <ul class="receipt-list" id="receiptList"></ul>
       </div>
 
-      <!-- DIARIES SECTION -->
+      <!-- DIARY SECTION -->
       <div class="diary-section" id="diarySection">
         <h3>Our Diaries</h3>
         <div class="diary-tabs">
@@ -669,33 +673,28 @@
   </main>
 </div>
 
-<!-- OVERLAY: Day Details (Tasks + Day Notes) -->
+<!-- OVERLAY for Day Tasks + Notes -->
 <div class="agenda-overlay" id="agendaOverlay">
   <div class="agenda-popup">
     <button class="popup-close" id="closeOverlayBtn">&times;</button>
     <h4 id="overlayDateTitle">Tasks for date</h4>
 
-    <!-- List of tasks for the day -->
     <ul class="day-tasks-list" id="dayTasksList"></ul>
 
-    <!-- DAY NOTES SECTION -->
     <div class="daynotes-section">
       <h5>Day Notes</h5>
       <ul class="daynotes-list" id="daynotesList"></ul>
-      <!-- "Add Day Note" button (disabled if 4 notes exist) -->
-      <button id="addDayNoteBtn" style="background:#6BBF59; color:#fff; border-radius:4px; padding:0.4rem 0.8rem; border:none; cursor:pointer;">
+      <button id="addDayNoteBtn" 
+              style="background:#6BBF59; color:#fff; border-radius:4px; padding:0.4rem 0.8rem; border:none; cursor:pointer;">
         + Add Day Note
       </button>
-
-      <!-- Hidden mini-editor area -->
       <div class="add-daynote-wrapper" id="addDaynoteWrapper">
         <div class="radio-group">
-          <label><input type="radio" name="daynoteAuthor" value="Floris" checked /> Floris</label>
-          <label><input type="radio" name="daynoteAuthor" value="Nina" /> Nina</label>
+          <label><input type="radio" name="daynoteAuthor" value="Floris" checked> Floris</label>
+          <label><input type="radio" name="daynoteAuthor" value="Nina"> Nina</label>
         </div>
         <div class="note-editor-toolbar" id="noteEditorToolbar"></div>
         <div class="note-editor-area" id="noteEditorArea"></div>
-
         <div class="note-editor-actions">
           <button id="saveDayNoteBtn">Save Note</button>
         </div>
@@ -704,15 +703,15 @@
   </div>
 </div>
 
-<!-- Firebase JS SDKs -->
+<!-- Firebase JS (v8) -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
 
-<!-- Initialize Firebase (using your real credentials) -->
+<!-- INIT Firebase with your real credentials -->
 <script>
   var firebaseConfig = {
-    apiKey: "AIzaSyCGcRd9wXmuTog0L5SY9zpLPWk5tX3T55M",
+    apiKey: "AIzaSyC...YOUR_API_KEY...",
     authDomain: "couple-9c9a8.firebaseapp.com",
     databaseURL: "https://couple-9c9a8-default-rtdb.firebaseio.com",
     projectId: "couple-9c9a8",
@@ -721,12 +720,9 @@
     appId: "1:237088668619:web:2f4643c8840da3162a544e"
   };
   firebase.initializeApp(firebaseConfig);
-
-  // References
   const db = firebase.database();
   const storage = firebase.storage();
 
-  // Our data references
   const taskRef     = db.ref("tasks");
   const chatRef     = db.ref("messages");
   const diaryRef    = db.ref("diaries");
@@ -734,213 +730,59 @@
   const daynotesRef = db.ref("daynotes");
 </script>
 
-<!-- Quill JS + Quill Emoji -->
+<!-- Quill + Quill Emoji JS -->
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill-emoji/dist/quill-emoji.js"></script>
 
 <script>
-/* ========== GLOBAL STATE ========== */
+/* =========== GLOBAL STATE =========== */
 let currentUser   = "Floris";
-let currentMonth  = new Date().getMonth(); // 0=Jan
+let tasksCache    = {};
+let daynotesCache = {};
+
+// For the calendar, we'll just show the current month
+let currentMonth  = new Date().getMonth();
 let currentYear   = new Date().getFullYear();
 
-// For tasks & chat
-let tasksCache    = {};
-let messagesCache = {};
-
-// For day notes
-let daynotesCache = {}; // daynotes[YYYY-MM-DD][autoId] = { author, content, timestamp }
-
-/* ========== DOM HOOKS ========== */
-const taskInput      = document.getElementById('taskInput');
-const taskCategory   = document.getElementById('taskCategory');
-const taskDate       = document.getElementById('taskDate');
-const addTaskBtn     = document.getElementById('addTaskBtn');
-const taskList       = document.getElementById('taskList');
-const chatInputEl    = document.getElementById('chatInput');
-const sendChatBtn    = document.getElementById('sendChatBtn');
-const chatMessagesEl = document.getElementById('chatMessages');
-
-// Tabs
-const agendaTabBtn   = document.getElementById('agendaTab');
-const receiptTabBtn  = document.getElementById('receiptTab');
-const diaryTabBtn    = document.getElementById('diaryTab');
-const agendaSection  = document.getElementById('agendaSection');
-const receiptSection = document.getElementById('receiptSection');
-const diarySection   = document.getElementById('diarySection');
-
-// Agenda
-const calendarGrid     = document.getElementById('calendarGrid');
-const agendaOverlay    = document.getElementById('agendaOverlay');
-const closeOverlayBtn  = document.getElementById('closeOverlayBtn');
-const overlayDateTitle = document.getElementById('overlayDateTitle');
-const dayTasksList     = document.getElementById('dayTasksList');
-
-// Day notes
-const daynotesList      = document.getElementById('daynotesList');
-const addDayNoteBtn     = document.getElementById('addDayNoteBtn');
-const addDaynoteWrapper = document.getElementById('addDaynoteWrapper');
-const saveDayNoteBtn    = document.getElementById('saveDayNoteBtn');
-
-// Receipts
-const receiptFileEl   = document.getElementById('receiptFile');
-const uploadReceiptBtn= document.getElementById('uploadReceiptBtn');
-const receiptListEl   = document.getElementById('receiptList');
-
-// Diaries
-const florisTab            = document.getElementById('florisTab');
-const ninaTab              = document.getElementById('ninaTab');
-const florisDiaryContainer = document.getElementById('florisDiaryContainer');
-const ninaDiaryContainer   = document.getElementById('ninaDiaryContainer');
-const saveFlorisDiaryBtn   = document.getElementById('saveFlorisDiaryBtn');
-const saveNinaDiaryBtn     = document.getElementById('saveNinaDiaryBtn');
-
+// QUILL editors
 let florisQuill, ninaQuill, noteQuill;
 
-/* ========== 1) TASKS ========== */
-addTaskBtn.addEventListener('click', () => {
-  const text = taskInput.value.trim();
-  const cat  = taskCategory.value;
-  const dVal = taskDate.value; 
-  if(!text) return;
-  const newTask = {
-    text: text,
-    category: cat,
-    date: dVal || "",
-    timestamp: Date.now()
-  };
-  taskRef.push(newTask);
-  taskInput.value = "";
-  taskDate.value  = "";
-});
+/* =========== ON PAGE LOAD =========== */
+document.addEventListener('DOMContentLoaded', () => {
+  initQuillEditors();
+  buildCalendar(); // show the current month
 
-taskRef.on('value', (snap) => {
-  tasksCache = snap.val() || {};
-  renderTaskList(tasksCache);
-  buildCalendar(); // refresh agenda day markers
-});
-
-function renderTaskList(allTasks){
-  taskList.innerHTML = "";
-  const entries = Object.entries(allTasks);
-  if(entries.length === 0) return;
-  // sort by timestamp desc
-  const sorted = entries.map(([id, data]) => ({id, ...data}))
-                        .sort((a,b) => b.timestamp - a.timestamp);
-  sorted.forEach(t => {
-    const li = document.createElement('li');
-    li.className = 'task-item';
-
-    const leftDiv = document.createElement('div');
-    leftDiv.className = 'task-left';
-
-    const catSpan = document.createElement('span');
-    catSpan.className = `task-category cat-${t.category || 'other'}`;
-    catSpan.textContent = t.category || 'Other';
-
-    const textSpan = document.createElement('span');
-    textSpan.textContent = t.text;
-
-    leftDiv.appendChild(catSpan);
-    leftDiv.appendChild(textSpan);
-
-    if(t.date){
-      const dateSpan = document.createElement('span');
-      dateSpan.className = 'task-date';
-      dateSpan.textContent = "Due: " + t.date;
-      leftDiv.appendChild(dateSpan);
-    }
-
-    const rightDiv = document.createElement('div');
-    rightDiv.className = 'task-right';
-    const delBtn = document.createElement('button');
-    delBtn.innerHTML = '🗑';
-    delBtn.title = "Delete task";
-    delBtn.addEventListener('click', ()=>{
-      taskRef.child(t.id).remove();
-    });
-
-    rightDiv.appendChild(delBtn);
-    li.appendChild(leftDiv);
-    li.appendChild(rightDiv);
-    taskList.appendChild(li);
+  // LISTEN for daynotes changes
+  daynotesRef.on('value', snap => {
+    daynotesCache = snap.val() || {};
+    buildCalendar(); // refresh highlights
   });
-}
 
-/* ========== 2) CHAT ========== */
-sendChatBtn.addEventListener('click', () => {
-  const msgText = chatInputEl.value.trim();
-  if(!msgText) return;
-  const newMsg = {
-    sender: currentUser,
-    text: msgText,
-    timestamp: Date.now()
-  };
-  chatRef.push(newMsg);
-  chatInputEl.value = "";
-});
-
-chatRef.on('value', (snap) => {
-  chatMessagesEl.innerHTML = "";
-  const data = snap.val() || {};
-  const msgArr = Object.entries(data).map(([id, obj]) => ({id, ...obj}));
-  msgArr.sort((a,b) => a.timestamp - b.timestamp);
-
-  msgArr.forEach(m => {
-    const div = document.createElement('div');
-    div.className = 'message';
-    const senderSpan = document.createElement('span');
-    senderSpan.className = 'sender';
-    senderSpan.textContent = m.sender + ": ";
-    const textSpan = document.createElement('span');
-    textSpan.textContent = m.text;
-    div.appendChild(senderSpan);
-    div.appendChild(textSpan);
-    chatMessagesEl.appendChild(div);
+  // LISTEN for tasks
+  taskRef.on('value', snap => {
+    tasksCache = snap.val() || {};
+    renderTaskList(tasksCache);
+    buildCalendar();
   });
-  chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+  
+  // Setup chat listener
+  chatRef.on('value', snap => {
+    renderChat(snap.val() || {});
+  });
 });
 
-/* ========== 3) AGENDA / CALENDAR ========== */
-agendaTabBtn.addEventListener('click', () => {
-  agendaTabBtn.classList.add('active');
-  receiptTabBtn.classList.remove('active');
-  diaryTabBtn.classList.remove('active');
-  agendaSection.style.display = 'block';
-  receiptSection.style.display= 'none';
-  diarySection.style.display  = 'none';
-  buildCalendar();
-});
-receiptTabBtn.addEventListener('click', () => {
-  receiptTabBtn.classList.add('active');
-  agendaTabBtn.classList.remove('active');
-  diaryTabBtn.classList.remove('active');
-  agendaSection.style.display = 'none';
-  receiptSection.style.display= 'block';
-  diarySection.style.display  = 'none';
-});
-diaryTabBtn.addEventListener('click', () => {
-  diaryTabBtn.classList.add('active');
-  agendaTabBtn.classList.remove('active');
-  receiptTabBtn.classList.remove('active');
-  agendaSection.style.display = 'none';
-  receiptSection.style.display= 'none';
-  diarySection.style.display  = 'block';
-});
-
-closeOverlayBtn.addEventListener('click', () => {
-  agendaOverlay.style.display = 'none';
-});
-
-// Build the monthly grid
+/* =========== CALENDAR BUILD =========== */
+const calendarGrid = document.getElementById('calendarGrid');
 function buildCalendar(){
   calendarGrid.innerHTML = "";
+
+  // e.g. if user wants to see just the current month
   const firstDay = new Date(currentYear, currentMonth, 1);
   const lastDay  = new Date(currentYear, currentMonth+1, 0);
-  const firstWeekday = firstDay.getDay(); // 0=Sun
+  const firstWeekday = firstDay.getDay(); // 0=Sunday
   const daysInMonth  = lastDay.getDate();
 
-  // blank cells before 1st
+  // blank cells before day 1
   for(let i=0; i<firstWeekday; i++){
     const blank = document.createElement('div');
     blank.className = 'calendar-day';
@@ -948,28 +790,28 @@ function buildCalendar(){
     calendarGrid.appendChild(blank);
   }
 
-  // actual day cells
-  for(let d=1; d <= daysInMonth; d++){
-    const cell = document.createElement('div');
-    cell.className = 'calendar-day';
+  // real day cells
+  for(let d=1; d<=daysInMonth; d++){
+    const dayCell = document.createElement('div');
+    dayCell.className = 'calendar-day';
 
     const dayNum = document.createElement('div');
     dayNum.className = 'day-number';
     dayNum.textContent = d;
-    cell.appendChild(dayNum);
+    dayCell.appendChild(dayNum);
 
-    const dateStr = formatDateYYYYMMDD(currentYear, currentMonth, d);
-
-    // Mark if tasks or notes exist for that day
+    let dateStr = formatDateYYYYMMDD(currentYear, currentMonth, d);
+    // if tasks or notes exist for dateStr, highlight
     if(hasTasksForDate(dateStr) || hasNotesForDate(dateStr)){
-      cell.classList.add('has-tasks');
+      dayCell.classList.add('has-tasks');
     }
 
     // open overlay on click
-    cell.addEventListener('click', ()=>{
+    dayCell.addEventListener('click', () => {
       openDayOverlay(dateStr);
     });
-    calendarGrid.appendChild(cell);
+
+    calendarGrid.appendChild(dayCell);
   }
 }
 
@@ -982,132 +824,141 @@ function hasTasksForDate(dateStr){
   return false;
 }
 function hasNotesForDate(dateStr){
-  if(!daynotesCache[dateStr]) return false;
-  return Object.keys(daynotesCache[dateStr]).length > 0;
+  return (daynotesCache[dateStr] && Object.keys(daynotesCache[dateStr]).length > 0);
 }
 
-/* ========== DAY OVERLAY: Tasks + Day Notes ========== */
+// HELPER to format date => YYYY-MM-DD
+function formatDateYYYYMMDD(y,m,d){
+  const mm = String(m+1).padStart(2,'0');
+  const dd = String(d).padStart(2,'0');
+  return `${y}-${mm}-${dd}`;
+}
+
+/* =========== DAY OVERLAY =========== */
+const agendaOverlay    = document.getElementById('agendaOverlay');
+const closeOverlayBtn  = document.getElementById('closeOverlayBtn');
+const overlayDateTitle = document.getElementById('overlayDateTitle');
+const dayTasksList     = document.getElementById('dayTasksList');
+const daynotesList     = document.getElementById('daynotesList');
+const addDayNoteBtn    = document.getElementById('addDayNoteBtn');
+const addDaynoteWrapper= document.getElementById('addDaynoteWrapper');
+const saveDayNoteBtn   = document.getElementById('saveDayNoteBtn');
+
+closeOverlayBtn.addEventListener('click', ()=> {
+  agendaOverlay.style.display = 'none';
+});
+
 function openDayOverlay(dateStr){
   overlayDateTitle.textContent = "Tasks for " + dateStr;
   dayTasksList.innerHTML = "";
   daynotesList.innerHTML = "";
-  hideAddDayNoteEditor(); // reset the mini editor
+  hideAddDayNoteEditor();
 
-  // Show tasks for that day
+  // tasks for that day
   let dayTasks = [];
   for(let tid in tasksCache){
-    const t = tasksCache[tid];
-    if(t.date === dateStr){
-      dayTasks.push(t);
-    }
+    let t = tasksCache[tid];
+    if(t.date === dateStr) dayTasks.push(t);
   }
-  if(dayTasks.length === 0){
-    const none = document.createElement('li');
-    none.textContent = "No tasks for this day.";
+  if(dayTasks.length===0){
+    let none = document.createElement('li');
+    none.textContent="No tasks for this day.";
     dayTasksList.appendChild(none);
   } else {
-    dayTasks.forEach(t => {
-      const li = document.createElement('li');
-      li.className = 'day-task-item';
-      li.textContent = `${t.text} [${t.category}]`;
+    dayTasks.forEach(task => {
+      let li=document.createElement('li');
+      li.className='day-task-item';
+      li.textContent=`${task.text} [${task.category}]`;
       dayTasksList.appendChild(li);
     });
   }
 
-  // Show existing day notes
+  // notes
   renderDayNotes(dateStr);
 
-  // "Add Day Note" button
-  addDayNoteBtn.onclick = ()=>{
-    const notesForDay = daynotesCache[dateStr] ? Object.keys(daynotesCache[dateStr]).length : 0;
-    if(notesForDay >= 4){
+  addDayNoteBtn.onclick=()=>{
+    let existingCount = daynotesCache[dateStr]? Object.keys(daynotesCache[dateStr]).length : 0;
+    if(existingCount>=4){
       alert("Max 4 notes per day reached!");
       return;
     }
     showAddDayNoteEditor(dateStr);
   };
 
-  agendaOverlay.style.display = 'flex';
+  agendaOverlay.style.display='flex';
 }
 
-// Renders existing notes for the given date
 function renderDayNotes(dateStr){
-  daynotesList.innerHTML = "";
-  const dayData = daynotesCache[dateStr] || {};
-  const noteEntries = Object.entries(dayData).map(([id, obj]) => ({id, ...obj}))
-    .sort((a,b)=> a.timestamp - b.timestamp);
+  daynotesList.innerHTML="";
+  let dayData = daynotesCache[dateStr]||{};
+  let arr = Object.entries(dayData).map(([id,data])=>({id,...data}));
+  arr.sort((a,b)=> a.timestamp - b.timestamp);
 
-  if(noteEntries.length === 0){
-    const none = document.createElement('li');
-    none.textContent = "No notes for this day.";
+  if(arr.length===0){
+    let none=document.createElement('li');
+    none.textContent="No notes for this day.";
     daynotesList.appendChild(none);
   } else {
-    noteEntries.forEach(note => {
-      const li = document.createElement('li');
-      li.className = 'daynote-item';
+    arr.forEach(note=>{
+      let li=document.createElement('li');
+      li.className='daynote-item';
 
-      const leftDiv = document.createElement('div');
-      leftDiv.className = 'daynote-info';
-
-      const authorSpan = document.createElement('span');
-      authorSpan.className = 'daynote-author';
-      authorSpan.textContent = note.author + " wrote:";
-
-      // Insert the Quill HTML
-      const contentDiv = document.createElement('div');
-      contentDiv.className = 'daynote-content';
-      contentDiv.innerHTML = note.content; 
+      let leftDiv=document.createElement('div');
+      leftDiv.className='daynote-info';
+      let authorSpan=document.createElement('span');
+      authorSpan.className='daynote-author';
+      authorSpan.textContent=note.author+" wrote:";
+      let contentDiv=document.createElement('div');
+      contentDiv.className='daynote-content';
+      contentDiv.innerHTML=note.content;
 
       leftDiv.appendChild(authorSpan);
       leftDiv.appendChild(contentDiv);
 
-      const rightDiv = document.createElement('div');
-      rightDiv.className = 'daynote-actions';
-
-      const delBtn = document.createElement('button');
-      delBtn.innerHTML = '🗑';
-      delBtn.title = "Delete note";
-      delBtn.addEventListener('click', ()=>{
+      let rightDiv=document.createElement('div');
+      rightDiv.className='daynote-actions';
+      let delBtn=document.createElement('button');
+      delBtn.innerHTML='🗑';
+      delBtn.title="Delete note";
+      delBtn.addEventListener('click',()=>{
         daynotesRef.child(dateStr).child(note.id).remove();
       });
-
       rightDiv.appendChild(delBtn);
+
       li.appendChild(leftDiv);
       li.appendChild(rightDiv);
+
       daynotesList.appendChild(li);
     });
   }
 
-  // Update "Add Day Note" button if 4 notes
-  const dayCount = Object.keys(dayData).length;
-  if(dayCount >= 4){
-    addDayNoteBtn.disabled = true;
-    addDayNoteBtn.style.opacity = '0.5';
+  // disable if 4 notes
+  let count = Object.keys(dayData).length;
+  if(count>=4){
+    addDayNoteBtn.disabled=true;
+    addDayNoteBtn.style.opacity='0.5';
   } else {
-    addDayNoteBtn.disabled = false;
-    addDayNoteBtn.style.opacity = '1.0';
+    addDayNoteBtn.disabled=false;
+    addDayNoteBtn.style.opacity='1.0';
   }
 }
 
-// Show the mini-editor to create a note
 function showAddDayNoteEditor(dateStr){
-  addDaynoteWrapper.style.display = 'block';
-  noteQuill.root.innerHTML = ""; 
-  // Set radio to currentUser by default
-  let radios = document.getElementsByName('daynoteAuthor');
+  addDaynoteWrapper.style.display='block';
+  noteQuill.root.innerHTML="";
+  let radios=document.getElementsByName('daynoteAuthor');
   for(let r of radios){
-    r.checked = (r.value === currentUser);
+    if(r.value===currentUser) r.checked=true;
   }
-
-  saveDayNoteBtn.onclick = ()=>{
-    const author = getSelectedAuthor();
-    const contentHTML = noteQuill.root.innerHTML.trim();
-    if(!contentHTML || contentHTML === "<p><br></p>"){
+  saveDayNoteBtn.onclick=()=>{
+    let author = getSelectedAuthor();
+    let contentHTML= noteQuill.root.innerHTML.trim();
+    if(!contentHTML || contentHTML==="<p><br></p>"){
       alert("Please enter some note content!");
       return;
     }
-    const noteCount = daynotesCache[dateStr] ? Object.keys(daynotesCache[dateStr]).length : 0;
-    if(noteCount >= 4){
+    let existingCount=daynotesCache[dateStr]?Object.keys(daynotesCache[dateStr]).length:0;
+    if(existingCount>=4){
       alert("Max 4 notes reached!");
       return;
     }
@@ -1119,183 +970,196 @@ function showAddDayNoteEditor(dateStr){
     hideAddDayNoteEditor();
   };
 }
+
 function hideAddDayNoteEditor(){
-  addDaynoteWrapper.style.display = 'none';
+  addDaynoteWrapper.style.display='none';
 }
 function getSelectedAuthor(){
-  let radios = document.getElementsByName('daynoteAuthor');
+  let radios=document.getElementsByName('daynoteAuthor');
   for(let r of radios){
-    if(r.checked) return r.value;
+    if(r.checked)return r.value;
   }
-  return "Floris"; 
+  return "Floris";
 }
 
-/* ========== 4) DAY NOTES LISTENER ========== */
-daynotesRef.on('value', (snap)=>{
-  daynotesCache = snap.val() || {};
-  // Rebuild the calendar so day highlighting updates for new/removed notes
-  buildCalendar();
+/* =========== TASKS (SIDEBAR) =========== */
+const taskList        = document.getElementById('taskList');
+const taskInput       = document.getElementById('taskInput');
+const taskCategory    = document.getElementById('taskCategory');
+const taskDate        = document.getElementById('taskDate');
+const addTaskBtn      = document.getElementById('addTaskBtn');
+
+addTaskBtn.addEventListener('click',()=>{
+  let textVal=taskInput.value.trim();
+  let catVal=taskCategory.value;
+  let dateVal=taskDate.value;
+  if(!textVal) return;
+  let newTask={
+    text:textVal,
+    category:catVal,
+    date:dateVal||"",
+    timestamp:Date.now()
+  };
+  taskRef.push(newTask);
+  taskInput.value="";
+  taskDate.value="";
 });
 
-/* ========== 5) RECEIPTS ========== */
-uploadReceiptBtn.addEventListener('click', async ()=>{
-  const file = receiptFileEl.files[0];
-  if(!file) return;
-  const filename = `receipt_${Date.now()}_${file.name}`;
-  const refSt = storage.ref().child('receipts/'+ filename);
-  await refSt.put(file);
-  const url = await refSt.getDownloadURL();
-  const newRef = receiptRef.push({
-    url: url,
-    status: 'processing',
-    timestamp: Date.now(),
-    total: 0
-  });
-  receiptFileEl.value = "";
+function renderTaskList(all){
+  taskList.innerHTML="";
+  let entries=Object.entries(all);
+  if(entries.length===0)return;
+  let arr=entries.map(([id,data])=>({id,...data}));
+  arr.sort((a,b)=>b.timestamp-a.timestamp);
 
-  // Simulate AI
-  setTimeout(()=>{
-    let simTotal = (Math.random()*100).toFixed(2);
-    newRef.update({
-      total: simTotal,
-      status: 'completed'
+  arr.forEach(t=>{
+    let li=document.createElement('li');
+    li.className='task-item';
+
+    let leftDiv=document.createElement('div');
+    leftDiv.className='task-left';
+    let catSpan=document.createElement('span');
+    catSpan.className=`task-category cat-${t.category||'other'}`;
+    catSpan.textContent=t.category||'Other';
+
+    let textSpan=document.createElement('span');
+    textSpan.textContent=t.text;
+    leftDiv.appendChild(catSpan);
+    leftDiv.appendChild(textSpan);
+
+    if(t.date){
+      let dSpan=document.createElement('span');
+      dSpan.className='task-date';
+      dSpan.textContent="Due: "+t.date;
+      leftDiv.appendChild(dSpan);
+    }
+
+    let rightDiv=document.createElement('div');
+    rightDiv.className='task-right';
+    let delBtn=document.createElement('button');
+    delBtn.innerHTML='🗑';
+    delBtn.title="Delete task";
+    delBtn.addEventListener('click',()=>{
+      taskRef.child(t.id).remove();
     });
-  }, 2000);
-});
-
-receiptRef.on('value', (snap)=>{
-  receiptListEl.innerHTML = "";
-  const all = snap.val() || {};
-  const arr = Object.entries(all).map(([id, data]) => ({id, ...data}))
-               .sort((a,b)=> b.timestamp - a.timestamp);
-  arr.forEach(rc=>{
-    const li = document.createElement('li');
-    li.className = 'receipt-item';
-
-    const leftDiv = document.createElement('div');
-    leftDiv.className = 'receipt-left';
-    const stSpan = document.createElement('span');
-    stSpan.style.fontSize = '0.8rem';
-    stSpan.textContent = (rc.status === 'completed') ? "✅ Processed" : "⏳ Processing...";
-    const totalSpan = document.createElement('span');
-    totalSpan.className = 'receipt-total';
-    totalSpan.textContent = "Total: $" + (rc.total || "0.00");
-    leftDiv.appendChild(stSpan);
-    leftDiv.appendChild(totalSpan);
-
-    const rightDiv = document.createElement('div');
-    rightDiv.className = 'receipt-actions';
-
-    const viewBtn = document.createElement('button');
-    viewBtn.innerHTML = '🔎';
-    viewBtn.title = "View receipt";
-    viewBtn.addEventListener('click', ()=>{
-      window.open(rc.url, '_blank');
-    });
-    const delBtn = document.createElement('button');
-    delBtn.innerHTML = '🗑';
-    delBtn.title = "Delete receipt";
-    delBtn.addEventListener('click', ()=>{
-      receiptRef.child(rc.id).remove();
-      // optionally remove from storage
-      // storage.refFromURL(rc.url).delete();
-    });
-    rightDiv.appendChild(viewBtn);
     rightDiv.appendChild(delBtn);
 
     li.appendChild(leftDiv);
     li.appendChild(rightDiv);
-    receiptListEl.appendChild(li);
-  });
-});
-
-/* ========== 6) DIARIES (Floris & Nina) ========== */
-function initDiaryEditors(){
-  florisQuill = new Quill('#florisDiaryEditor', {
-    modules: {
-      toolbar: '#florisDiaryToolbar',
-      'emoji-toolbar': true,
-      'emoji-textarea': false,
-      'emoji-shortname': true
-    },
-    theme: 'snow',
-    placeholder: "Write something, Floris..."
-  });
-  ninaQuill = new Quill('#ninaDiaryEditor', {
-    modules: {
-      toolbar: '#ninaDiaryToolbar',
-      'emoji-toolbar': true,
-      'emoji-textarea': false,
-      'emoji-shortname': true
-    },
-    theme: 'snow',
-    placeholder: "Write something, Nina..."
-  });
-  // Mini quill for day notes
-  noteQuill = new Quill('#noteEditorArea', {
-    modules: {
-      toolbar: '#noteEditorToolbar',
-      'emoji-toolbar': true,
-      'emoji-textarea': false,
-      'emoji-shortname': true
-    },
-    theme: 'snow',
-    placeholder: "Add your day note..."
+    taskList.appendChild(li);
   });
 }
 
-florisTab.addEventListener('click', ()=>{
-  currentUser = "Floris";
+/* =========== CHAT =========== */
+const chatMessagesEl=document.getElementById('chatMessages');
+const chatInputEl   =document.getElementById('chatInput');
+const sendChatBtnEl =document.getElementById('sendChatBtn');
+
+sendChatBtnEl.addEventListener('click',()=>{
+  let msg=chatInputEl.value.trim();
+  if(!msg)return;
+  chatRef.push({
+    sender:currentUser,
+    text:msg,
+    timestamp:Date.now()
+  });
+  chatInputEl.value="";
+});
+
+function renderChat(data){
+  chatMessagesEl.innerHTML="";
+  let entries=Object.entries(data);
+  if(entries.length===0)return;
+  let arr=entries.map(([id,obj])=>({id,...obj}));
+  arr.sort((a,b)=> a.timestamp - b.timestamp);
+  arr.forEach(msg=>{
+    let div=document.createElement('div');
+    div.className='message';
+    let senderSpan=document.createElement('span');
+    senderSpan.className='sender';
+    senderSpan.textContent= msg.sender+": ";
+    let textSpan=document.createElement('span');
+    textSpan.textContent= msg.text;
+    div.appendChild(senderSpan);
+    div.appendChild(textSpan);
+    chatMessagesEl.appendChild(div);
+  });
+  chatMessagesEl.scrollTop= chatMessagesEl.scrollHeight;
+}
+
+/* =========== DIARIES =========== */
+const florisTab=document.getElementById('florisTab');
+const ninaTab=document.getElementById('ninaTab');
+const florisDiaryContainer=document.getElementById('florisDiaryContainer');
+const ninaDiaryContainer=document.getElementById('ninaDiaryContainer');
+const saveFlorisDiaryBtn=document.getElementById('saveFlorisDiaryBtn');
+const saveNinaDiaryBtn=document.getElementById('saveNinaDiaryBtn');
+
+function initQuillEditors(){
+  florisQuill=new Quill('#florisDiaryEditor',{
+    modules:{
+      toolbar:'#florisDiaryToolbar',
+      'emoji-toolbar':true,
+      'emoji-textarea':false,
+      'emoji-shortname':true
+    },
+    theme:'snow',
+    placeholder:"Write something, Floris..."
+  });
+  ninaQuill=new Quill('#ninaDiaryEditor',{
+    modules:{
+      toolbar:'#ninaDiaryToolbar',
+      'emoji-toolbar':true,
+      'emoji-textarea':false,
+      'emoji-shortname':true
+    },
+    theme:'snow',
+    placeholder:"Write something, Nina..."
+  });
+  noteQuill=new Quill('#noteEditorArea',{
+    modules:{
+      toolbar:'#noteEditorToolbar',
+      'emoji-toolbar':true,
+      'emoji-textarea':false,
+      'emoji-shortname':true
+    },
+    theme:'snow',
+    placeholder:"Add your day note..."
+  });
+}
+
+florisTab.addEventListener('click',()=>{
+  currentUser="Floris";
   florisTab.classList.add('active');
   ninaTab.classList.remove('active');
-  florisDiaryContainer.style.display = '';
-  ninaDiaryContainer.style.display   = 'none';
+  florisDiaryContainer.style.display='';
+  ninaDiaryContainer.style.display='none';
 });
-ninaTab.addEventListener('click', ()=>{
-  currentUser = "Nina";
+ninaTab.addEventListener('click',()=>{
+  currentUser="Nina";
   ninaTab.classList.add('active');
   florisTab.classList.remove('active');
-  florisDiaryContainer.style.display = 'none';
-  ninaDiaryContainer.style.display   = '';
+  florisDiaryContainer.style.display='none';
+  ninaDiaryContainer.style.display='';
 });
 
-saveFlorisDiaryBtn.addEventListener('click', ()=>{
-  const content = florisQuill.root.innerHTML;
-  const today   = new Date().toISOString().split('T')[0];
+saveFlorisDiaryBtn.addEventListener('click',()=>{
+  const content=florisQuill.root.innerHTML;
+  const today=new Date().toISOString().split('T')[0];
   diaryRef.child('floris').child(today).set({
-    content: content,
-    savedAt: Date.now()
+    content:content,
+    savedAt:Date.now()
   });
-  alert("Floris diary saved for " + today);
+  alert("Floris diary saved for "+today);
 });
-saveNinaDiaryBtn.addEventListener('click', ()=>{
-  const content = ninaQuill.root.innerHTML;
-  const today   = new Date().toISOString().split('T')[0];
+saveNinaDiaryBtn.addEventListener('click',()=>{
+  const content=ninaQuill.root.innerHTML;
+  const today=new Date().toISOString().split('T')[0];
   diaryRef.child('nina').child(today).set({
-    content: content,
-    savedAt: Date.now()
+    content:content,
+    savedAt:Date.now()
   });
-  alert("Nina diary saved for " + today);
-});
-
-// HELPER to format date => YYYY-MM-DD
-function formatDateYYYYMMDD(y, m, d){
-  const mm = String(m+1).padStart(2,'0');
-  const dd = String(d).padStart(2,'0');
-  return `${y}-${mm}-${dd}`;
-}
-
-/* ========== 7) ON PAGE LOAD ========== */
-document.addEventListener('DOMContentLoaded', () => {
-  initDiaryEditors();
-  buildCalendar();
-
-  // Real-time daynotes
-  daynotesRef.on('value',(snap)=>{
-    daynotesCache = snap.val() || {};
-    // Rebuild calendar so day highlights reflect new notes
-    buildCalendar();
-  });
+  alert("Nina diary saved for "+today);
 });
 </script>
 </body>
