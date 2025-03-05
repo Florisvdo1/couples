@@ -1,73 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Floris & Nina – Full Planner with Firebase</title>
-  
-  <!-- Example Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  
-  <!-- Quill (Rich Text) + Emoji CSS -->
-  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill-emoji/dist/quill-emoji.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Floris &amp; Nina – Final Planner (Firebase Integrated)</title>
+
+  <!-- Quill (CSS) -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"/>
+  <!-- Quill Emoji CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quill-emoji/dist/quill-emoji.css"/>
 
   <style>
-    /* GLOBAL STYLES */
+    /* =========== GLOBAL STYLES =========== */
     html, body {
-      margin: 0; 
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      font-family: 'Poppins', sans-serif;
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      font-family: sans-serif;
       background: #FFFDF9;
       color: #333;
-      overflow: hidden; /* We'll manage scrolling in sections */
     }
-    * { box-sizing: border-box; transition: all 0.15s ease; }
-
     .container {
       display: flex; 
       flex-direction: column;
+      height: 100vh; 
       width: 100%;
-      height: 100vh;
     }
 
     /* HEADER */
     header {
-      position: relative;
       background: #FFDAD6;
       padding: 1rem;
       text-align: center;
+      position: relative;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       flex: 0 0 auto;
     }
     header h1 {
       margin: 0;
-      font-size: 1.4rem;
       font-weight: 700;
+      font-size: 1.4rem;
       color: #4A2E2E;
     }
     header .subheading {
-      font-weight: 300;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: #6F4E4E;
     }
     .header-nav {
-      position: absolute;
-      top: 1rem; 
-      right: 1rem;
-      display: flex;
-      gap: 0.5rem;
+      position: absolute; 
+      top: 1rem; right: 1rem;
+      display: flex; gap: 0.5rem;
     }
     .header-nav button {
-      background: transparent;
-      border: none;
-      font-size: 1rem;
-      cursor: pointer;
-      color: #4A2E2E;
-      padding: 0.3rem 0.6rem;
-      border-radius: 4px;
+      background: none; border: none;
+      font-size: 1rem; cursor: pointer; color: #4A2E2E;
+      padding: 0.3rem 0.6rem; border-radius: 4px;
     }
     .header-nav button:hover {
       background: rgba(0,0,0,0.1);
@@ -77,23 +63,21 @@
     main {
       flex: 1 1 auto;
       display: flex;
-      flex-direction: row;
-      height: calc(100vh - 3.5rem);
       overflow: hidden;
     }
 
-    /* SIDEBAR (Tasks & Chat) */
+    /* SIDEBAR (Tasks + Chat) */
     .sidebar {
       flex: 0 0 350px;
       background: #FFF;
       border-right: 1px solid #eee;
-      display: flex;
+      display: flex; 
       flex-direction: column;
       overflow: hidden;
     }
     .sidebar-header {
-      padding: 1rem;
-      background: #FFEAE5;
+      background: #FFEAE5; 
+      padding: 1rem; 
       text-align: center;
       border-bottom: 1px solid #eee;
     }
@@ -103,22 +87,15 @@
       font-weight: 600;
     }
     .tasks-container, .chat-container {
-      flex: 1 1 auto;
-      overflow-y: auto;
+      flex: 1 1 0; 
       padding: 1rem;
-      scrollbar-width: thin;
-    }
-    .tasks-container h3,
-    .chat-container h3 {
-      margin-top: 0;
+      overflow-y: auto;
     }
 
-    /* ADD TASK FORM */
+    /* TASKS */
     .new-task-form {
-      display: flex; 
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 0.8rem;
+      display: flex; flex-direction: column;
+      gap: 0.4rem; margin-bottom: 1rem;
     }
     .new-task-form input[type=text],
     .new-task-form select,
@@ -130,103 +107,86 @@
       font-size: 0.9rem;
     }
     .new-task-form button {
-      align-self: flex-start;
-      padding: 0.4rem 0.6rem;
-      border: none;
+      padding: 0.4rem 0.6rem; 
+      border: none; 
       border-radius: 4px;
-      background: #FF9680;
-      color: #fff;
-      cursor: pointer;
+      background: #FF9680; 
+      color: #fff; 
+      cursor: pointer; 
       font-size: 0.9rem;
     }
     .new-task-form button:hover {
       background: #FF7F62;
     }
-
-    /* TASK LIST */
     .task-list {
-      list-style: none;
-      margin: 0; 
-      padding: 0;
+      list-style: none; 
+      margin: 0; padding: 0;
     }
     .task-item {
-      background: #FDFDFD;
-      border: 1px solid #f0f0f0;
+      background: #FDFDFD; 
+      border: 1px solid #f0f0f0; 
       border-radius: 4px;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.5rem; 
       padding: 0.5rem;
-      display: flex;
-      align-items: center;
+      display: flex; 
+      align-items: center; 
       justify-content: space-between;
     }
     .task-left {
-      display: flex;
-      flex-direction: column;
+      display: flex; 
+      flex-direction: column; 
       gap: 0.2rem;
     }
     .task-category {
-      font-size: 0.8rem;
+      font-size: 0.8rem; 
       padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      color: #fff;
+      border-radius: 4px; color: #fff;
       display: inline-block;
     }
-    .cat-cleaning  { background: #6BBF59; }
-    .cat-shopping  { background: #FF7F62; }
-    .cat-personal  { background: #AB79CF; }
-    .cat-other     { background: #BFBFBD; }
-    .task-date {
-      font-size: 0.8rem;
-      color: #666;
-    }
-    .task-right button {
-      cursor: pointer; 
-      background: none; 
-      border: none; 
-      color: #777;
-      font-size: 1rem;
-    }
-    .task-right button:hover {
-      color: #333;
-    }
+    .cat-cleaning { background: #6BBF59; }
+    .cat-shopping { background: #FF7F62; }
+    .cat-personal { background: #AB79CF; }
+    .cat-other    { background: #BFBFBD; }
 
-    /* CHAT MESSAGES */
+    /* CHAT */
+    .chat-container h3 {
+      margin-top: 0; font-size: 1rem;
+    }
     .chat-messages {
-      max-height: 300px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: #FDFBF9;
+      height: 180px; 
       overflow-y: auto;
       margin-bottom: 0.5rem;
-      border: 1px solid #eee;
-      border-radius: 4px;
       padding: 0.5rem;
-      background: #FDFBF9;
     }
     .chat-messages .message {
-      margin-bottom: 0.4rem;
-      line-height: 1.2;
       background: #FFFBFA;
       border-radius: 4px;
+      margin-bottom: 0.4rem;
       padding: 0.3rem 0.5rem;
+      line-height: 1.2;
     }
     .message .sender {
-      font-weight: 600;
+      font-weight: 600; 
+      color: #4A2E2E; 
       margin-right: 0.5rem;
-      color: #4A2E2E;
     }
     .chat-input {
-      display: flex; 
-      gap: 0.5rem;
+      display: flex; gap: 0.4rem;
     }
     .chat-input input {
-      flex: 1;
-      padding: 0.4rem;
-      border: 1px solid #ccc;
+      flex: 1; 
+      padding: 0.4rem; 
+      border: 1px solid #ccc; 
       border-radius: 4px;
     }
     .chat-input button {
-      padding: 0.4rem 0.6rem;
-      border: none;
-      border-radius: 4px;
-      background: #FF9680;
+      padding: 0.4rem 0.6rem; 
+      border: none; 
+      border-radius: 4px; 
+      background: #FF9680; 
       color: #fff;
       cursor: pointer;
     }
@@ -234,58 +194,59 @@
       background: #FF7F62;
     }
 
-    /* MAIN CONTENT: Agenda / Receipts / Diaries */
+    /* MAIN CONTENT */
     .main-content {
-      flex: 1 1 auto;
-      display: flex;
+      flex: 1 1 auto; 
+      display: flex; 
       flex-direction: column;
-      overflow-y: auto;
+      overflow-y: auto; 
       padding: 1rem;
+      background: #fafafa;
     }
     .main-tabs {
-      display: flex;
-      gap: 0.5rem;
+      display: flex; 
+      gap: 0.5rem; 
       margin-bottom: 1rem;
     }
     .main-tabs button {
-      border: none;
+      border: none; 
       padding: 0.6rem 1rem;
-      background: #FFEAE5;
+      background: #FFEAE5; 
       border-radius: 4px;
-      cursor: pointer;
-      font-weight: 500;
+      cursor: pointer; 
+      font-weight: 500; 
       color: #4A2E2E;
     }
     .main-tabs button.active {
-      background: #FF9680;
+      background: #FF9680; 
       color: #fff;
     }
 
-    /* AGENDA SECTION */
+    /* AGENDA */
     .agenda-section {
-      background: #FFF;
+      background: #FFF; 
+      border: 1px solid #eee; 
       border-radius: 6px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.05);
       padding: 1rem;
-      border: 1px solid #eee;
       display: none;
     }
     .agenda-section h3 {
-      margin-top: 0;
+      margin-top: 0; 
       font-size: 1.1rem;
     }
     .calendar-grid {
-      display: grid;
+      display: grid; 
       grid-template-columns: repeat(7, 1fr);
-      grid-gap: 5px;
+      grid-gap: 5px; 
       margin-top: 0.5rem;
     }
     .calendar-day {
-      background: #FFFBFA;
-      border: 1px solid #f0f0f0;
+      background: #FFFBFA; 
+      border: 1px solid #f0f0f0; 
       border-radius: 4px;
-      min-height: 70px;
-      position: relative;
+      min-height: 60px; 
+      position: relative; 
       padding: 5px;
       cursor: pointer;
     }
@@ -293,44 +254,42 @@
       background: #FFEAE5;
     }
     .day-number {
-      font-weight: 600;
+      font-weight: 600; font-size: 0.9rem;
     }
-    /* highlight days with tasks or notes */
     .has-tasks::after {
       content: '•';
       color: #FF9680;
-      position: absolute;
-      bottom: 5px; right: 5px;
+      position: absolute; 
+      bottom: 5px; 
+      right: 5px;
       font-size: 1.2rem;
     }
 
     .agenda-overlay {
-      position: fixed;
-      top: 0; left: 0;
+      position: fixed; 
+      top: 0; left: 0; 
       width: 100%; height: 100%;
       background: rgba(0,0,0,0.5);
       display: none; 
-      align-items: center;
+      align-items: center; 
       justify-content: center;
       z-index: 999;
     }
     .agenda-popup {
       background: #FFF;
-      width: 90%;
-      max-width: 500px;
+      width: 90%; 
+      max-width: 480px;
       padding: 1rem;
       border-radius: 6px;
       position: relative;
-      max-height: 90%;
+      max-height: 90%; 
       overflow-y: auto;
     }
     .agenda-popup h4 {
       margin-top: 0;
     }
     .popup-close {
-      position: absolute; 
-      top: 10px; 
-      right: 10px;
+      position: absolute; top: 10px; right: 10px;
       cursor: pointer; 
       background: none; 
       border: none;
@@ -341,51 +300,44 @@
       color: #333;
     }
     .day-tasks-list {
-      list-style: none; 
-      margin: 0; 
-      padding: 0;
+      list-style: none; margin: 0; padding: 0;
       margin-bottom: 1rem;
     }
     .day-task-item {
-      margin-bottom: 0.4rem;
-      background: #FFFBFA;
-      border: 1px solid #f0f0f0;
+      background: #FFFBFA; 
+      border: 1px solid #f0f0f0; 
       border-radius: 4px;
+      margin-bottom: 0.4rem; 
       padding: 0.4rem;
     }
 
-    /* RECEIPT SECTION */
+    /* RECEIPTS */
     .receipt-section {
-      background: #FFF;
+      background: #FFF; 
       border-radius: 6px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      padding: 1rem;
       border: 1px solid #eee;
+      padding: 1rem;
       display: none;
-      margin-bottom: 1rem;
     }
     .receipt-section h3 {
       margin-top: 0;
-      font-size: 1.1rem;
+      font-size: 1.1rem; 
       margin-bottom: 0.6rem;
     }
     .upload-row {
-      display: flex; 
-      align-items: center; 
-      gap: 0.5rem; 
-      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;
     }
     .upload-row input[type='file'] {
-      flex: 1 1 auto;
+      flex: 1 1 auto; 
       font-size: 0.9rem;
     }
     .upload-row button {
-      padding: 0.4rem 0.6rem;
-      border: none;
-      border-radius: 4px;
-      background: #FF9680;
-      color: #fff;
-      cursor: pointer;
+      padding: 0.4rem 0.6rem; 
+      border: none; 
+      border-radius: 4px; 
+      background: #FF9680; color: #fff;
+      cursor: pointer; 
       font-size: 0.9rem;
     }
     .upload-row button:hover {
@@ -396,12 +348,11 @@
     }
     .receipt-item {
       background: #FDFDFD;
-      border: 1px solid #f0f0f0;
+      border: 1px solid #f0f0f0; 
       border-radius: 4px;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.5rem; 
       padding: 0.5rem;
-      display: flex; 
-      align-items: center; 
+      display: flex; align-items: center; 
       justify-content: space-between;
     }
     .receipt-left {
@@ -411,188 +362,135 @@
       font-weight: 600; color: #333;
     }
     .receipt-actions button {
-      background: none; border: none;
-      cursor: pointer; color: #777;
+      background: none; 
+      border: none; 
+      cursor: pointer; 
+      color: #777; 
       font-size: 1rem;
     }
     .receipt-actions button:hover {
       color: #333;
     }
 
-    /* DIARY SECTION */
+    /* DIARIES */
     .diary-section {
       display: none;
-      background: #FFF;
+      background: #FFF; 
+      border: 1px solid #eee; 
       border-radius: 6px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.05);
       padding: 1rem;
-      border: 1px solid #eee;
     }
     .diary-section h3 {
-      margin-top: 0;
+      margin-top: 0; 
       font-size: 1.1rem;
     }
     .diary-tabs {
-      display: flex; 
-      gap: 1rem; 
-      margin-bottom: 1rem;
+      display: flex; gap: 1rem; margin-bottom: 1rem;
     }
     .diary-tabs button {
-      padding: 0.5rem 1rem;
-      border: none; 
-      border-radius: 4px; 
-      cursor: pointer; 
-      background: #FFEAE5;
-      font-weight: 500; 
-      color: #4A2E2E;
+      padding: 0.5rem 1rem; border: none; border-radius: 4px;
+      background: #FFEAE5; cursor: pointer; color: #4A2E2E; font-weight: 500;
     }
     .diary-tabs button.active {
       background: #FF9680; color: #fff;
     }
     .diary-editor {
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      height: 200px;
-      background: #FFFBFA;
+      border: 1px solid #ccc; border-radius: 4px;
+      height: 200px; background: #FFFBFA;
     }
     .diary-toolbar {
-      border: 1px solid #ccc;
-      border-bottom: none;
-      border-top-left-radius: 4px; 
-      border-top-right-radius: 4px;
+      border: 1px solid #ccc; border-bottom: none;
+      border-top-left-radius: 4px; border-top-right-radius: 4px;
       background: #FDFDFD;
     }
     .diary-actions {
-      margin-top: 0.5rem; 
-      text-align: right;
+      margin-top: 0.5rem; text-align: right;
     }
     .diary-actions button {
-      background: #FF9680; 
-      color: #fff;
-      border: none; 
-      border-radius: 4px;
-      padding: 0.4rem 0.6rem; 
-      cursor: pointer;
-      font-size: 0.9rem;
+      background: #FF9680; color: #fff; border: none; border-radius: 4px;
+      padding: 0.4rem 0.6rem; cursor: pointer; font-size: 0.9rem;
     }
     .diary-actions button:hover {
       background: #FF7F62;
     }
 
-    /* DAY NOTES in overlay */
-    .daynotes-section {
-      margin-bottom: 1.5rem;
+    /* DAY NOTES */
+    .daynotes-section h5 {
+      margin: 1rem 0 0.5rem; 
+      font-size: 1rem;
     }
     .daynotes-list {
       list-style: none; margin: 0; padding: 0;
       margin-bottom: 0.5rem;
     }
     .daynote-item {
-      background: #FDFDFD;
-      border: 1px solid #f0f0f0;
+      background: #FDFDFD; 
+      border: 1px solid #f0f0f0; 
       border-radius: 4px;
       margin-bottom: 0.4rem;
       padding: 0.4rem;
-      display: flex; 
-      justify-content: space-between;
-      align-items: center;
+      display: flex; justify-content: space-between; align-items: center;
     }
     .daynote-info {
-      display: flex; flex-direction: column;
-      gap: 0.2rem;
-      font-size: 0.9rem;
+      display: flex; flex-direction: column; gap: 0.2rem; font-size: 0.9rem;
     }
     .daynote-author {
-      font-weight: 600;
-      margin-right: 0.5rem;
-      color: #4A2E2E;
+      font-weight: 600; color: #4A2E2E;
     }
     .daynote-content {
       font-size: 0.9rem;
     }
     .daynote-actions button {
-      background: none; 
-      border: none;
-      font-size: 1rem;
-      cursor: pointer;
-      color: #777;
+      background: none; border: none;
+      font-size: 1rem; cursor: pointer; color: #777;
     }
     .daynote-actions button:hover {
       color: #333;
     }
     .add-daynote-wrapper {
-      display: none; 
-      margin-top: 0.5rem;
-      padding: 0.5rem; 
-      background: #FFFDFD;
-      border: 1px solid #eee;
-      border-radius: 6px;
+      display: none; margin-top: 0.5rem; padding: 0.5rem;
+      background: #FFFDFD; border: 1px solid #eee; border-radius: 6px;
     }
     .note-editor-toolbar, .note-editor-area {
-      border: 1px solid #ccc; 
-      border-bottom: none; 
-      border-radius: 4px;
+      border: 1px solid #ccc; border-bottom: none; border-radius: 4px;
       background: #FDFDFD;
     }
     .note-editor-area {
-      height: 120px; 
-      border-top: none;
-      border-radius: 0 0 4px 4px;
-      background: #FFFBFA;
-    }
-    .radio-group {
-      display: flex; 
-      gap: 1rem;
-      margin-top: 0.5rem;
+      height: 120px; background: #FFFBFA;
+      border-top: none; border-radius: 0 0 4px 4px;
     }
     .note-editor-actions {
-      margin-top: 0.4rem; 
-      text-align: right;
-    }
-    .note-editor-actions button {
-      background: #FF9680; 
-      color: #fff;
-      border: none; 
-      border-radius: 4px;
-      padding: 0.4rem 0.6rem; 
-      cursor: pointer; 
-      font-size: 0.85rem;
-    }
-    .note-editor-actions button:hover {
-      background: #FF7F62;
+      margin-top: 0.4rem; text-align: right;
     }
 
     @media (max-width: 768px) {
-      main {
-        flex-direction: column;
-      }
+      main { flex-direction: column; }
       .sidebar {
-        flex: 0 0 auto;
-        height: 350px;
-        border-right: none;
-        border-bottom: 1px solid #eee;
+        width: 100%; height: 300px;
+        border-right: none; border-bottom: 1px solid #eee;
       }
-      .main-content {
-        height: calc(100vh - 3.5rem - 350px);
-      }
+      .main-content { height: calc(100vh - 3.5rem - 300px); }
     }
   </style>
 </head>
+
 <body>
 <div class="container">
   <header>
     <h1>Floris &amp; Nina Planner</h1>
-    <div class="subheading">All-in-One Agenda, Tasks, Chat, Diaries &amp; Firebase</div>
+    <div class="subheading">Fully integrated with Firebase Realtime &amp; Storage</div>
     <div class="header-nav">
       <button title="Help">?</button>
       <button title="Settings">&#9881;</button>
     </div>
   </header>
+
   <main>
-    <!-- SIDEBAR: Tasks & Chat -->
+    <!-- SIDEBAR: Tasks + Chat -->
     <div class="sidebar">
       <div class="sidebar-header">
-        <h2>Tasks</h2>
+        <h2>Tasks &amp; Chat</h2>
       </div>
       <div class="tasks-container">
         <h3>Add New Task</h3>
@@ -610,7 +508,7 @@
         <ul class="task-list" id="taskList"></ul>
       </div>
       <div class="chat-container">
-        <h3>Chat Messages</h3>
+        <h3>Global Chat</h3>
         <div class="chat-messages" id="chatMessages"></div>
         <div class="chat-input">
           <input type="text" id="chatInput" placeholder="Type a message...">
@@ -619,7 +517,7 @@
       </div>
     </div>
 
-    <!-- RIGHT CONTENT: Agenda / Receipts / Diaries -->
+    <!-- MAIN CONTENT (Agenda / Receipts / Diaries) -->
     <div class="main-content">
       <div class="main-tabs">
         <button id="agendaTab" class="active">Agenda</button>
@@ -630,16 +528,14 @@
       <!-- AGENDA SECTION -->
       <div class="agenda-section" id="agendaSection" style="display:block;">
         <h3>Calendar Agenda</h3>
-        <p>Select a day to add notes (or tasks with date in the sidebar). Stored in Firebase.</p>
-        <div class="calendar-grid" id="calendarGrid">
-          <!-- day cells injected here -->
-        </div>
+        <p>Click a day to see tasks and add day notes.</p>
+        <div class="calendar-grid" id="calendarGrid"></div>
       </div>
 
-      <!-- RECEIPTS SECTION -->
+      <!-- RECEIPT SECTION -->
       <div class="receipt-section" id="receiptSection">
         <h3>Budget &amp; Receipts</h3>
-        <p>Upload grocery receipts to track expenses (AI-based simulation).</p>
+        <p>Upload receipts to track costs (randomly generated total).</p>
         <div class="upload-row">
           <input type="file" id="receiptFile" accept="image/*">
           <button id="uploadReceiptBtn">Upload</button>
@@ -654,6 +550,7 @@
           <button id="florisTab" class="active">Floris</button>
           <button id="ninaTab">Nina</button>
         </div>
+        <!-- Floris Editor -->
         <div id="florisDiaryContainer">
           <div class="diary-toolbar" id="florisDiaryToolbar"></div>
           <div class="diary-editor" id="florisDiaryEditor"></div>
@@ -661,6 +558,7 @@
             <button id="saveFlorisDiaryBtn">Save Floris Diary</button>
           </div>
         </div>
+        <!-- Nina Editor -->
         <div id="ninaDiaryContainer" style="display:none;">
           <div class="diary-toolbar" id="ninaDiaryToolbar"></div>
           <div class="diary-editor" id="ninaDiaryEditor"></div>
@@ -673,19 +571,16 @@
   </main>
 </div>
 
-<!-- OVERLAY for Day Tasks + Notes -->
+<!-- Overlay for Day tasks + notes -->
 <div class="agenda-overlay" id="agendaOverlay">
   <div class="agenda-popup">
     <button class="popup-close" id="closeOverlayBtn">&times;</button>
     <h4 id="overlayDateTitle">Tasks for date</h4>
-
     <ul class="day-tasks-list" id="dayTasksList"></ul>
-
     <div class="daynotes-section">
       <h5>Day Notes</h5>
       <ul class="daynotes-list" id="daynotesList"></ul>
-      <button id="addDayNoteBtn" 
-              style="background:#6BBF59; color:#fff; border-radius:4px; padding:0.4rem 0.8rem; border:none; cursor:pointer;">
+      <button id="addDayNoteBtn" style="background:#6BBF59; color:#fff; border-radius:4px; padding:0.4rem 0.8rem; border:none; cursor:pointer;">
         + Add Day Note
       </button>
       <div class="add-daynote-wrapper" id="addDaynoteWrapper">
@@ -703,15 +598,15 @@
   </div>
 </div>
 
-<!-- Firebase JS (v8) -->
+<!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
 
-<!-- INIT Firebase with your real credentials -->
+<!-- Replace with your config (Storage bucket = gs://couple-9c9a8.firebasestorage.app ) -->
 <script>
   var firebaseConfig = {
-    apiKey: "AIzaSyC...YOUR_API_KEY...",
+    apiKey: "AIzaSyCGcRd9wXmuTog0L5SY9zpLPWk5tX3T55M",
     authDomain: "couple-9c9a8.firebaseapp.com",
     databaseURL: "https://couple-9c9a8-default-rtdb.firebaseio.com",
     projectId: "couple-9c9a8",
@@ -722,380 +617,378 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
   const storage = firebase.storage();
-
-  const taskRef     = db.ref("tasks");
-  const chatRef     = db.ref("messages");
-  const diaryRef    = db.ref("diaries");
-  const receiptRef  = db.ref("receipts");
-  const daynotesRef = db.ref("daynotes");
 </script>
 
-<!-- Quill + Quill Emoji JS -->
+<!-- Quill + Quill Emoji -->
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill-emoji/dist/quill-emoji.js"></script>
 
 <script>
 /* =========== GLOBAL STATE =========== */
-let currentUser   = "Floris";
-let tasksCache    = {};
-let daynotesCache = {};
+let currentUser = "Floris";
 
-// For the calendar, we'll just show the current month
-let currentMonth  = new Date().getMonth();
-let currentYear   = new Date().getFullYear();
-
-// QUILL editors
+// Quill Editors
 let florisQuill, ninaQuill, noteQuill;
 
-/* =========== ON PAGE LOAD =========== */
+/* ON PAGE LOAD */
 document.addEventListener('DOMContentLoaded', () => {
-  initQuillEditors();
-  buildCalendar(); // show the current month
-
-  // LISTEN for daynotes changes
-  daynotesRef.on('value', snap => {
-    daynotesCache = snap.val() || {};
-    buildCalendar(); // refresh highlights
-  });
-
-  // LISTEN for tasks
-  taskRef.on('value', snap => {
-    tasksCache = snap.val() || {};
-    renderTaskList(tasksCache);
-    buildCalendar();
-  });
-  
-  // Setup chat listener
-  chatRef.on('value', snap => {
-    renderChat(snap.val() || {});
-  });
+  initDiaryEditors();
+  initTabs();
+  initSidebar();
+  initChat();
+  initReceipts();
+  initDayOverlay();
+  buildCalendar();
 });
 
-/* =========== CALENDAR BUILD =========== */
-const calendarGrid = document.getElementById('calendarGrid');
-function buildCalendar(){
-  calendarGrid.innerHTML = "";
+/* =========== TABS =========== */
+function initTabs(){
+  const agendaTab=document.getElementById('agendaTab');
+  const receiptTab=document.getElementById('receiptTab');
+  const diaryTab=document.getElementById('diaryTab');
+  const agendaSection=document.getElementById('agendaSection');
+  const receiptSection=document.getElementById('receiptSection');
+  const diarySection=document.getElementById('diarySection');
 
-  // e.g. if user wants to see just the current month
-  const firstDay = new Date(currentYear, currentMonth, 1);
-  const lastDay  = new Date(currentYear, currentMonth+1, 0);
-  const firstWeekday = firstDay.getDay(); // 0=Sunday
-  const daysInMonth  = lastDay.getDate();
-
-  // blank cells before day 1
-  for(let i=0; i<firstWeekday; i++){
-    const blank = document.createElement('div');
-    blank.className = 'calendar-day';
-    blank.style.background = '#f8f8f8';
-    calendarGrid.appendChild(blank);
-  }
-
-  // real day cells
-  for(let d=1; d<=daysInMonth; d++){
-    const dayCell = document.createElement('div');
-    dayCell.className = 'calendar-day';
-
-    const dayNum = document.createElement('div');
-    dayNum.className = 'day-number';
-    dayNum.textContent = d;
-    dayCell.appendChild(dayNum);
-
-    let dateStr = formatDateYYYYMMDD(currentYear, currentMonth, d);
-    // if tasks or notes exist for dateStr, highlight
-    if(hasTasksForDate(dateStr) || hasNotesForDate(dateStr)){
-      dayCell.classList.add('has-tasks');
-    }
-
-    // open overlay on click
-    dayCell.addEventListener('click', () => {
-      openDayOverlay(dateStr);
-    });
-
-    calendarGrid.appendChild(dayCell);
-  }
+  agendaTab.addEventListener('click',()=>{
+    agendaTab.classList.add('active');
+    receiptTab.classList.remove('active');
+    diaryTab.classList.remove('active');
+    agendaSection.style.display='block';
+    receiptSection.style.display='none';
+    diarySection.style.display='none';
+  });
+  receiptTab.addEventListener('click',()=>{
+    receiptTab.classList.add('active');
+    agendaTab.classList.remove('active');
+    diaryTab.classList.remove('active');
+    agendaSection.style.display='none';
+    receiptSection.style.display='block';
+    diarySection.style.display='none';
+  });
+  diaryTab.addEventListener('click',()=>{
+    diaryTab.classList.add('active');
+    agendaTab.classList.remove('active');
+    receiptTab.classList.remove('active');
+    agendaSection.style.display='none';
+    receiptSection.style.display='none';
+    diarySection.style.display='block';
+  });
 }
 
-function hasTasksForDate(dateStr){
-  for(let tid in tasksCache){
-    if(tasksCache[tid].date === dateStr){
-      return true;
-    }
-  }
-  return false;
-}
-function hasNotesForDate(dateStr){
-  return (daynotesCache[dateStr] && Object.keys(daynotesCache[dateStr]).length > 0);
-}
-
-// HELPER to format date => YYYY-MM-DD
-function formatDateYYYYMMDD(y,m,d){
-  const mm = String(m+1).padStart(2,'0');
-  const dd = String(d).padStart(2,'0');
-  return `${y}-${mm}-${dd}`;
-}
-
-/* =========== DAY OVERLAY =========== */
-const agendaOverlay    = document.getElementById('agendaOverlay');
-const closeOverlayBtn  = document.getElementById('closeOverlayBtn');
-const overlayDateTitle = document.getElementById('overlayDateTitle');
-const dayTasksList     = document.getElementById('dayTasksList');
-const daynotesList     = document.getElementById('daynotesList');
-const addDayNoteBtn    = document.getElementById('addDayNoteBtn');
-const addDaynoteWrapper= document.getElementById('addDaynoteWrapper');
-const saveDayNoteBtn   = document.getElementById('saveDayNoteBtn');
-
-closeOverlayBtn.addEventListener('click', ()=> {
-  agendaOverlay.style.display = 'none';
-});
-
-function openDayOverlay(dateStr){
-  overlayDateTitle.textContent = "Tasks for " + dateStr;
-  dayTasksList.innerHTML = "";
-  daynotesList.innerHTML = "";
-  hideAddDayNoteEditor();
-
-  // tasks for that day
-  let dayTasks = [];
-  for(let tid in tasksCache){
-    let t = tasksCache[tid];
-    if(t.date === dateStr) dayTasks.push(t);
-  }
-  if(dayTasks.length===0){
-    let none = document.createElement('li');
-    none.textContent="No tasks for this day.";
-    dayTasksList.appendChild(none);
-  } else {
-    dayTasks.forEach(task => {
-      let li=document.createElement('li');
-      li.className='day-task-item';
-      li.textContent=`${task.text} [${task.category}]`;
-      dayTasksList.appendChild(li);
-    });
-  }
-
-  // notes
-  renderDayNotes(dateStr);
-
-  addDayNoteBtn.onclick=()=>{
-    let existingCount = daynotesCache[dateStr]? Object.keys(daynotesCache[dateStr]).length : 0;
-    if(existingCount>=4){
-      alert("Max 4 notes per day reached!");
-      return;
-    }
-    showAddDayNoteEditor(dateStr);
-  };
-
-  agendaOverlay.style.display='flex';
-}
-
-function renderDayNotes(dateStr){
-  daynotesList.innerHTML="";
-  let dayData = daynotesCache[dateStr]||{};
-  let arr = Object.entries(dayData).map(([id,data])=>({id,...data}));
-  arr.sort((a,b)=> a.timestamp - b.timestamp);
-
-  if(arr.length===0){
-    let none=document.createElement('li');
-    none.textContent="No notes for this day.";
-    daynotesList.appendChild(none);
-  } else {
-    arr.forEach(note=>{
-      let li=document.createElement('li');
-      li.className='daynote-item';
-
-      let leftDiv=document.createElement('div');
-      leftDiv.className='daynote-info';
-      let authorSpan=document.createElement('span');
-      authorSpan.className='daynote-author';
-      authorSpan.textContent=note.author+" wrote:";
-      let contentDiv=document.createElement('div');
-      contentDiv.className='daynote-content';
-      contentDiv.innerHTML=note.content;
-
-      leftDiv.appendChild(authorSpan);
-      leftDiv.appendChild(contentDiv);
-
-      let rightDiv=document.createElement('div');
-      rightDiv.className='daynote-actions';
-      let delBtn=document.createElement('button');
-      delBtn.innerHTML='🗑';
-      delBtn.title="Delete note";
-      delBtn.addEventListener('click',()=>{
-        daynotesRef.child(dateStr).child(note.id).remove();
-      });
-      rightDiv.appendChild(delBtn);
-
-      li.appendChild(leftDiv);
-      li.appendChild(rightDiv);
-
-      daynotesList.appendChild(li);
-    });
-  }
-
-  // disable if 4 notes
-  let count = Object.keys(dayData).length;
-  if(count>=4){
-    addDayNoteBtn.disabled=true;
-    addDayNoteBtn.style.opacity='0.5';
-  } else {
-    addDayNoteBtn.disabled=false;
-    addDayNoteBtn.style.opacity='1.0';
-  }
-}
-
-function showAddDayNoteEditor(dateStr){
-  addDaynoteWrapper.style.display='block';
-  noteQuill.root.innerHTML="";
-  let radios=document.getElementsByName('daynoteAuthor');
-  for(let r of radios){
-    if(r.value===currentUser) r.checked=true;
-  }
-  saveDayNoteBtn.onclick=()=>{
-    let author = getSelectedAuthor();
-    let contentHTML= noteQuill.root.innerHTML.trim();
-    if(!contentHTML || contentHTML==="<p><br></p>"){
-      alert("Please enter some note content!");
-      return;
-    }
-    let existingCount=daynotesCache[dateStr]?Object.keys(daynotesCache[dateStr]).length:0;
-    if(existingCount>=4){
-      alert("Max 4 notes reached!");
-      return;
-    }
-    daynotesRef.child(dateStr).push({
-      author: author,
-      content: contentHTML,
+/* =========== SIDEBAR: TASKS =========== */
+function initSidebar(){
+  const addTaskBtn=document.getElementById('addTaskBtn');
+  addTaskBtn.addEventListener('click',()=>{
+    const textVal= document.getElementById('taskInput').value.trim();
+    const catVal= document.getElementById('taskCategory').value;
+    const dateVal= document.getElementById('taskDate').value;
+    if(!textVal)return;
+    const newTask={
+      text:textVal,
+      category:catVal,
+      date: dateVal || "",
       timestamp: Date.now()
+    };
+    db.ref('tasks').push(newTask);
+    document.getElementById('taskInput').value="";
+  });
+  db.ref('tasks').on('value', snap=>{
+    const tasksObj=snap.val()||{};
+    const arr=Object.entries(tasksObj).map(([id,obj])=>({id,...obj}))
+               .sort((a,b)=> b.timestamp - a.timestamp);
+    const taskListEl=document.getElementById('taskList');
+    taskListEl.innerHTML="";
+    arr.forEach(t=>{
+      const li=document.createElement('li');
+      li.className='task-item';
+
+      const left=document.createElement('div');
+      left.className='task-left';
+      const catSpan=document.createElement('span');
+      catSpan.className='task-category cat-'+(t.category||'other');
+      catSpan.textContent=t.category||'Other';
+      const textSpan=document.createElement('span');
+      textSpan.textContent=t.text;
+      left.appendChild(catSpan);
+      left.appendChild(textSpan);
+      if(t.date){
+        const dateSpan=document.createElement('span');
+        dateSpan.textContent="Due: "+t.date;
+        dateSpan.className='task-date';
+        left.appendChild(dateSpan);
+      }
+      const right=document.createElement('div');
+      right.className='task-right';
+      const delBtn=document.createElement('button');
+      delBtn.innerHTML='🗑';
+      delBtn.addEventListener('click',()=>db.ref('tasks/'+t.id).remove());
+      right.appendChild(delBtn);
+
+      li.appendChild(left);
+      li.appendChild(right);
+      taskListEl.appendChild(li);
     });
-    hideAddDayNoteEditor();
-  };
-}
-
-function hideAddDayNoteEditor(){
-  addDaynoteWrapper.style.display='none';
-}
-function getSelectedAuthor(){
-  let radios=document.getElementsByName('daynoteAuthor');
-  for(let r of radios){
-    if(r.checked)return r.value;
-  }
-  return "Floris";
-}
-
-/* =========== TASKS (SIDEBAR) =========== */
-const taskList        = document.getElementById('taskList');
-const taskInput       = document.getElementById('taskInput');
-const taskCategory    = document.getElementById('taskCategory');
-const taskDate        = document.getElementById('taskDate');
-const addTaskBtn      = document.getElementById('addTaskBtn');
-
-addTaskBtn.addEventListener('click',()=>{
-  let textVal=taskInput.value.trim();
-  let catVal=taskCategory.value;
-  let dateVal=taskDate.value;
-  if(!textVal) return;
-  let newTask={
-    text:textVal,
-    category:catVal,
-    date:dateVal||"",
-    timestamp:Date.now()
-  };
-  taskRef.push(newTask);
-  taskInput.value="";
-  taskDate.value="";
-});
-
-function renderTaskList(all){
-  taskList.innerHTML="";
-  let entries=Object.entries(all);
-  if(entries.length===0)return;
-  let arr=entries.map(([id,data])=>({id,...data}));
-  arr.sort((a,b)=>b.timestamp-a.timestamp);
-
-  arr.forEach(t=>{
-    let li=document.createElement('li');
-    li.className='task-item';
-
-    let leftDiv=document.createElement('div');
-    leftDiv.className='task-left';
-    let catSpan=document.createElement('span');
-    catSpan.className=`task-category cat-${t.category||'other'}`;
-    catSpan.textContent=t.category||'Other';
-
-    let textSpan=document.createElement('span');
-    textSpan.textContent=t.text;
-    leftDiv.appendChild(catSpan);
-    leftDiv.appendChild(textSpan);
-
-    if(t.date){
-      let dSpan=document.createElement('span');
-      dSpan.className='task-date';
-      dSpan.textContent="Due: "+t.date;
-      leftDiv.appendChild(dSpan);
-    }
-
-    let rightDiv=document.createElement('div');
-    rightDiv.className='task-right';
-    let delBtn=document.createElement('button');
-    delBtn.innerHTML='🗑';
-    delBtn.title="Delete task";
-    delBtn.addEventListener('click',()=>{
-      taskRef.child(t.id).remove();
-    });
-    rightDiv.appendChild(delBtn);
-
-    li.appendChild(leftDiv);
-    li.appendChild(rightDiv);
-    taskList.appendChild(li);
   });
 }
 
 /* =========== CHAT =========== */
-const chatMessagesEl=document.getElementById('chatMessages');
-const chatInputEl   =document.getElementById('chatInput');
-const sendChatBtnEl =document.getElementById('sendChatBtn');
+function initChat(){
+  const chatRef=db.ref('chat');
+  const chatMessagesEl=document.getElementById('chatMessages');
+  const chatInputEl=document.getElementById('chatInput');
+  const sendChatBtn=document.getElementById('sendChatBtn');
 
-sendChatBtnEl.addEventListener('click',()=>{
-  let msg=chatInputEl.value.trim();
-  if(!msg)return;
-  chatRef.push({
-    sender:currentUser,
-    text:msg,
-    timestamp:Date.now()
-  });
-  chatInputEl.value="";
-});
-
-function renderChat(data){
-  chatMessagesEl.innerHTML="";
-  let entries=Object.entries(data);
-  if(entries.length===0)return;
-  let arr=entries.map(([id,obj])=>({id,...obj}));
-  arr.sort((a,b)=> a.timestamp - b.timestamp);
-  arr.forEach(msg=>{
-    let div=document.createElement('div');
+  chatRef.on('child_added', snap=>{
+    const val=snap.val();
+    const div=document.createElement('div');
     div.className='message';
-    let senderSpan=document.createElement('span');
-    senderSpan.className='sender';
-    senderSpan.textContent= msg.sender+": ";
-    let textSpan=document.createElement('span');
-    textSpan.textContent= msg.text;
-    div.appendChild(senderSpan);
-    div.appendChild(textSpan);
+    div.textContent=val;
     chatMessagesEl.appendChild(div);
+    chatMessagesEl.scrollTop= chatMessagesEl.scrollHeight;
   });
-  chatMessagesEl.scrollTop= chatMessagesEl.scrollHeight;
+  sendChatBtn.addEventListener('click', ()=>{
+    const msg=chatInputEl.value.trim();
+    if(!msg)return;
+    chatRef.push(msg);
+    chatInputEl.value="";
+  });
 }
 
-/* =========== DIARIES =========== */
-const florisTab=document.getElementById('florisTab');
-const ninaTab=document.getElementById('ninaTab');
-const florisDiaryContainer=document.getElementById('florisDiaryContainer');
-const ninaDiaryContainer=document.getElementById('ninaDiaryContainer');
-const saveFlorisDiaryBtn=document.getElementById('saveFlorisDiaryBtn');
-const saveNinaDiaryBtn=document.getElementById('saveNinaDiaryBtn');
+/* =========== CALENDAR & OVERLAY =========== */
+function buildCalendar(){
+  const calGrid=document.getElementById('calendarGrid');
+  calGrid.innerHTML="";
+  const now=new Date();
+  const year=now.getFullYear();
+  const month=now.getMonth();
+  const firstDay=new Date(year, month,1);
+  const lastDay=new Date(year, month+1,0);
+  const firstWeekday= firstDay.getDay();
+  const daysInMonth= lastDay.getDate();
 
-function initQuillEditors(){
+  for(let i=0; i<firstWeekday; i++){
+    const blank=document.createElement('div');
+    blank.className='calendar-day';
+    blank.style.background='#f8f8f8';
+    calGrid.appendChild(blank);
+  }
+  for(let d=1; d<=daysInMonth; d++){
+    const cell=document.createElement('div');
+    cell.className='calendar-day';
+    const dayNum=document.createElement('div');
+    dayNum.className='day-number';
+    dayNum.textContent=d;
+    cell.appendChild(dayNum);
+
+    const dateStr=formatDate(year,month,d);
+
+    // Quick checks for tasks / daynotes
+    db.ref('tasks').once('value', snap=>{
+      const tasks=snap.val()||{};
+      for(const tid in tasks){
+        if(tasks[tid].date===dateStr){
+          cell.classList.add('has-tasks');
+          break;
+        }
+      }
+    });
+    db.ref('daynotes/'+dateStr).once('value', snap=>{
+      if(snap.val()) cell.classList.add('has-tasks');
+    });
+
+    cell.addEventListener('click',()=>openDayOverlay(dateStr));
+    calGrid.appendChild(cell);
+  }
+}
+function formatDate(y,m,d){
+  const mm=String(m+1).padStart(2,'0');
+  const dd=String(d).padStart(2,'0');
+  return `${y}-${mm}-${dd}`;
+}
+function initDayOverlay(){
+  document.getElementById('closeOverlayBtn').addEventListener('click',()=>{
+    document.getElementById('agendaOverlay').style.display='none';
+  });
+}
+function openDayOverlay(dateStr){
+  document.getElementById('overlayDateTitle').textContent="Tasks for "+dateStr;
+  document.getElementById('agendaOverlay').style.display='flex';
+  loadDayTasks(dateStr);
+  loadDayNotes(dateStr);
+}
+function loadDayTasks(dateStr){
+  const list=document.getElementById('dayTasksList');
+  list.innerHTML="";
+  db.ref('tasks').once('value', snap=>{
+    const data=snap.val()||{};
+    const arr=Object.entries(data).map(([id,obj])=>({id,...obj}))
+               .filter(t=>t.date===dateStr)
+               .sort((a,b)=>a.timestamp-b.timestamp);
+    if(arr.length===0){
+      const none=document.createElement('li');
+      none.className='day-task-item';
+      none.textContent="No tasks for this day.";
+      list.appendChild(none);
+    } else {
+      arr.forEach(t=>{
+        const li=document.createElement('li');
+        li.className='day-task-item';
+        li.textContent=`${t.text} [${t.category}]`;
+        list.appendChild(li);
+      });
+    }
+  });
+}
+
+/* DAY NOTES */
+document.getElementById('addDayNoteBtn').addEventListener('click',()=>{
+  document.getElementById('addDaynoteWrapper').style.display='block';
+  noteQuill.root.innerHTML="";
+});
+document.getElementById('saveDayNoteBtn').addEventListener('click',()=>{
+  const overlayTitle=document.getElementById('overlayDateTitle').textContent;
+  const dateStr=overlayTitle.replace('Tasks for ','').trim();
+
+  const radios=document.getElementsByName('daynoteAuthor');
+  let author="Floris";
+  for(let r of radios){
+    if(r.checked)author=r.value;
+  }
+  const contentHTML= noteQuill.root.innerHTML.trim();
+  if(!contentHTML || contentHTML==="<p><br></p>"){
+    alert("Please write something!");
+    return;
+  }
+  db.ref('daynotes/'+dateStr).push({
+    author: author,
+    content: contentHTML,
+    timestamp: Date.now()
+  });
+  document.getElementById('addDaynoteWrapper').style.display='none';
+  setTimeout(()=> loadDayNotes(dateStr), 500);
+});
+function loadDayNotes(dateStr){
+  const list=document.getElementById('daynotesList');
+  list.innerHTML="";
+  db.ref('daynotes/'+dateStr).once('value', snap=>{
+    const data=snap.val()||{};
+    const arr=Object.entries(data).map(([id,obj])=>({id,...obj}))
+               .sort((a,b)=> a.timestamp-b.timestamp);
+    if(arr.length===0){
+      const none=document.createElement('li');
+      none.textContent="No notes for this day.";
+      list.appendChild(none);
+    } else {
+      arr.forEach(note=>{
+        const li=document.createElement('li');
+        li.className='daynote-item';
+
+        const left=document.createElement('div');
+        left.className='daynote-info';
+
+        const authorSpan=document.createElement('span');
+        authorSpan.className='daynote-author';
+        authorSpan.textContent=`${note.author} wrote:`;
+
+        const contentDiv=document.createElement('div');
+        contentDiv.className='daynote-content';
+        contentDiv.innerHTML=note.content;
+
+        left.appendChild(authorSpan);
+        left.appendChild(contentDiv);
+
+        const right=document.createElement('div');
+        right.className='daynote-actions';
+        const delBtn=document.createElement('button');
+        delBtn.innerHTML='🗑';
+        delBtn.addEventListener('click',()=>{
+          db.ref('daynotes/'+dateStr+'/'+note.id).remove();
+          setTimeout(()=> loadDayNotes(dateStr),300);
+        });
+        right.appendChild(delBtn);
+
+        li.appendChild(left);
+        li.appendChild(right);
+        list.appendChild(li);
+      });
+    }
+  });
+}
+
+/* RECEIPTS */
+function initReceipts(){
+  document.getElementById('uploadReceiptBtn').addEventListener('click', async()=>{
+    const fileEl=document.getElementById('receiptFile');
+    const file=fileEl.files[0];
+    if(!file)return;
+    const fileName=`receipt_${Date.now()}_${file.name}`;
+    const storageRef= firebase.storage().ref().child('receipts/'+fileName);
+    await storageRef.put(file);
+    const url=await storageRef.getDownloadURL();
+    const newRef=db.ref('receipts').push();
+    newRef.set({
+      url: url,
+      status: 'processing',
+      timestamp: Date.now(),
+      total: 0
+    });
+    fileEl.value="";
+
+    // simulate OCR
+    setTimeout(()=>{
+      newRef.update({
+        status:'completed',
+        total:(Math.random()*100).toFixed(2)
+      });
+    },2000);
+  });
+
+  db.ref('receipts').on('value', snap=>{
+    const listEl=document.getElementById('receiptList');
+    listEl.innerHTML="";
+    const data=snap.val()||{};
+    const arr=Object.entries(data).map(([id,obj])=>({id,...obj}))
+               .sort((a,b)=>b.timestamp-a.timestamp);
+    arr.forEach(rc=>{
+      const li=document.createElement('li');
+      li.className='receipt-item';
+
+      const leftDiv=document.createElement('div');
+      leftDiv.className='receipt-left';
+      const stSpan=document.createElement('span');
+      stSpan.style.fontSize='0.8rem';
+      stSpan.textContent=(rc.status==='completed')?"✅ Processed":"⏳ Processing...";
+      const totalSpan=document.createElement('span');
+      totalSpan.className='receipt-total';
+      totalSpan.textContent="Total: $"+(rc.total||"0.00");
+      leftDiv.appendChild(stSpan);
+      leftDiv.appendChild(totalSpan);
+
+      const rightDiv=document.createElement('div');
+      rightDiv.className='receipt-actions';
+      const viewBtn=document.createElement('button');
+      viewBtn.innerHTML='🔎';
+      viewBtn.addEventListener('click',()=>{
+        window.open(rc.url,'_blank');
+      });
+      const delBtn=document.createElement('button');
+      delBtn.innerHTML='🗑';
+      delBtn.addEventListener('click',()=>{
+        db.ref('receipts/'+rc.id).remove();
+      });
+      rightDiv.appendChild(viewBtn);
+      rightDiv.appendChild(delBtn);
+
+      li.appendChild(leftDiv);
+      li.appendChild(rightDiv);
+      listEl.appendChild(li);
+    });
+  });
+}
+
+/* DIARIES */
+function initDiaryEditors(){
   florisQuill=new Quill('#florisDiaryEditor',{
     modules:{
       toolbar:'#florisDiaryToolbar',
@@ -1128,38 +1021,38 @@ function initQuillEditors(){
   });
 }
 
-florisTab.addEventListener('click',()=>{
+document.getElementById('florisTab').addEventListener('click',()=>{
   currentUser="Floris";
-  florisTab.classList.add('active');
-  ninaTab.classList.remove('active');
-  florisDiaryContainer.style.display='';
-  ninaDiaryContainer.style.display='none';
+  document.getElementById('florisTab').classList.add('active');
+  document.getElementById('ninaTab').classList.remove('active');
+  document.getElementById('florisDiaryContainer').style.display='';
+  document.getElementById('ninaDiaryContainer').style.display='none';
 });
-ninaTab.addEventListener('click',()=>{
+document.getElementById('ninaTab').addEventListener('click',()=>{
   currentUser="Nina";
-  ninaTab.classList.add('active');
-  florisTab.classList.remove('active');
-  florisDiaryContainer.style.display='none';
-  ninaDiaryContainer.style.display='';
+  document.getElementById('ninaTab').classList.add('active');
+  document.getElementById('florisTab').classList.remove('active');
+  document.getElementById('florisDiaryContainer').style.display='none';
+  document.getElementById('ninaDiaryContainer').style.display='';
 });
 
-saveFlorisDiaryBtn.addEventListener('click',()=>{
+document.getElementById('saveFlorisDiaryBtn').addEventListener('click',()=>{
   const content=florisQuill.root.innerHTML;
-  const today=new Date().toISOString().split('T')[0];
-  diaryRef.child('floris').child(today).set({
-    content:content,
-    savedAt:Date.now()
+  const dateStr=new Date().toISOString().split('T')[0];
+  db.ref('diaries/floris/'+dateStr).set({
+    content: content,
+    savedAt: Date.now()
   });
-  alert("Floris diary saved for "+today);
+  alert("Floris diary saved for "+dateStr);
 });
-saveNinaDiaryBtn.addEventListener('click',()=>{
+document.getElementById('saveNinaDiaryBtn').addEventListener('click',()=>{
   const content=ninaQuill.root.innerHTML;
-  const today=new Date().toISOString().split('T')[0];
-  diaryRef.child('nina').child(today).set({
-    content:content,
-    savedAt:Date.now()
+  const dateStr=new Date().toISOString().split('T')[0];
+  db.ref('diaries/nina/'+dateStr).set({
+    content: content,
+    savedAt: Date.now()
   });
-  alert("Nina diary saved for "+today);
+  alert("Nina diary saved for "+dateStr);
 });
 </script>
 </body>
